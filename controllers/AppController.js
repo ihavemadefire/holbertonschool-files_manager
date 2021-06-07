@@ -3,7 +3,7 @@ import redis from '../utils/redis';
 
 class AppController {
   static getStatus(request, response) {
-    const jsonObj = { redis: redis.isAlive(), db: redis.isAlive() };
+    const jsonObj = { redis: redis.isAlive(), db: db.isAlive() };
     return response.status(200).send(jsonObj);
   }
 
