@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import sha1 from 'sha1';
 import db from '../utils/db';
 
 class UsersController {
@@ -11,18 +11,14 @@ class UsersController {
     if (!password) {
       return response.status(400).json({ error: 'Missing password' });
     }
-
     // Search for existing user in db
-    const collection = await db.collection('users');
-    const search = collection.find({ email }).toArray();
-    if (await search.length > 0) {
+    const exists = await db.users.find({ email }).count();
+    if (exists > 0) {
       return response.status(400).json({ error: 'Already exist' });
     }
-
-    const hash = crypto.createHash('sha1');
-    const hashedPwd = hash.update(password);
-    const hashDigestPwd = hashedPwd.digest('hex');
-    const user = await collection.insertOne({ email, password: hashDigestPwd });
+    // Insert new user
+    const hashedPwd = sha1(password);
+    const user = await db.users.insertOne({ email, password: hashedPwd });
     response.status(201);
     return response.json({ email, id: user._id });
   }
