@@ -2,6 +2,8 @@ import sha1 from 'sha1';
 import db from '../utils/db';
 import redis from '../utils/redis';
 
+const mongo = require('mongodb');
+
 class UsersController {
   static async postNew(request, response) {
     const { email, password } = request.body;
@@ -30,8 +32,8 @@ class UsersController {
     const key = `auth_${token}`;
     const ID = await redis.get(key);
     if (!ID) { return response.status(401).json({ error: 'Unauthorized' }); }
-    const q = await db.users.find(`ObjectId("${ID}")`).toArray();
-    const user = q[0];
+    const mongoObj = new mongo.ObjectID(ID);
+    const user = await db.db.collection('users').findOne({ _id: mongoObj });
     return response.json({ ID, email: user.email });
   }
 }
