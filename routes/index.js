@@ -20,4 +20,8 @@ router.get('/users/me', UsersController.getMe);
 router.post('/files', FilesController.postUpload);
 router.post('/users', UsersController.postNew);
 
+// the put Routes
+router.put('/files/:id/publish', FilesController.putPublish);
+router.put('/files/:id/unpublish', FilesController.putUnpublish);
+
 export default router;
