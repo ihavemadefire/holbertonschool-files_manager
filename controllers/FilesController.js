@@ -36,8 +36,12 @@ class FilesController {
     if (['folder'].includes(type)) {
       await db.db.collection('files').insertOne(fileAttrs);
       return response.status(201).json({
-				id: fileAttrs._id, userId: fileAttrs.userId, name: fileAttrs.name,
-        type: fileAttrs.type, isPublic: fileAttrs.isPublic, parentId: fileAttrs.parentId,
+        id: fileAttrs._id,
+        userId: fileAttrs.userId,
+        name: fileAttrs.name,
+        type: fileAttrs.type,
+        isPublic: fileAttrs.isPublic,
+        parentId: fileAttrs.parentId,
       });
     }
 
@@ -60,8 +64,12 @@ class FilesController {
     await db.db.collection('files').insertOne(fileAttrs);
 
     return response.status(201).json({
-      id: fileAttrs._id, userId: fileAttrs.user, name: fileAttrs.name,
-      type: fileAttrs.type, isPublic: fileAttrs.isPublic, parentId: fileAttrs.parentId,
+      id: fileAttrs._id,
+      userId: fileAttrs.user,
+      name: fileAttrs.name,
+      type: fileAttrs.type,
+      isPublic: fileAttrs.isPublic,
+      parentId: fileAttrs.parentId,
     });
   }
 }
